@@ -29,16 +29,15 @@ public class Permutation {
 
 		else {
 			for (int i = 0; i < string.length(); i++) {
-				String remainder = string.substring(0, i)
-						+ string.substring(i + 1);
+				String remainder = string.substring(0, i) + string.substring(i + 1);
 
 				permutation(remainder, prefix + string.charAt(i));
 			}
 		}
 	}
-	
+
 	public boolean isPermutation(String string) {
-		if(permutations.containsKey(string))
+		if (permutations.containsKey(string))
 			return true;
 		else
 			return false;
@@ -47,7 +46,7 @@ public class Permutation {
 	public Set<String> permutations() {
 		return permutations.keySet();
 	}
-	
+
 	public void print() {
 		System.out.println(permutations());
 	}

@@ -1,20 +1,17 @@
 import java.util.Hashtable;
 import java.util.Random;
 
-public class Practice {
+public class Test {
 
-	public void linkedListTest() {
-		LinkedList list = new LinkedList();
+	public static void linkedListTest() {
+		LinkedList<Integer> list = new LinkedList<Integer>();
 		Random random = new Random();
 
-		for (int i = 0; i < 10; i++) {
-			list.append(random.nextInt(10));
+		for (int i = 0; i < 11; i++) {
+			list.append((Integer)random.nextInt(10));
 		}
-
-		while (!list.isEmpty()) {
-			list.printConnections();
-			list.remove(random.nextInt(10));
-		}
+		
+		list.removeMiddle();
 	}
 
 	public static void hashTableTest() {
@@ -66,9 +63,33 @@ public class Practice {
 		return url;
 	}
 
-	public static void main(String[] args) {
+	public static void urlifyTest() {
 		String string = "Trevor Wyatt Roman      ";
 		String url = new String(urlify(string.toCharArray(), 18));
 		System.out.println("URLIFY: 'Trevor Wyatt Roman' = " + url.toString());
+	}
+	
+	public static void matrixTest() {
+		Matrix m = new Matrix(20, 20);
+		m.printMatrix();
+		
+		m.randomize(100);
+		m.printMatrix();
+		
+		Matrix r = m.rotateMatrix();
+		r.printMatrix();
+		
+		Matrix r2 = r.rotateMatrix();
+		r2.printMatrix();
+		
+		Matrix r3 = r2.rotateMatrix();
+		r3.printMatrix();
+		
+		Matrix r4 = r3.rotateMatrix();
+		r4.printMatrix();
+	}
+	
+	public static void main(String[] args) {
+		linkedListTest();
 	}
 }

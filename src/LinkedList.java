@@ -1,16 +1,19 @@
-public class LinkedList {
+import java.util.HashMap;
+import java.util.Random;
+
+public class LinkedList<T> {
 	Node head;
 	Node tail;
 
-	public class Node {
-		int data;
-		Node next;
-		Node previous;
+	private class Node {
+		private Node next;
+		private Node previous;
+		private T data;
 
-		public Node(int data) {
-			this.data = data;
+		private Node(T data) {
 			this.next = null;
 			this.previous = null;
+			this.data = data;
 		}
 	}
 
@@ -19,129 +22,145 @@ public class LinkedList {
 		this.tail = null;
 	}
 
-	public Node append(int data) {
-		System.out.println("Adding: " + data);
-
-		if (this.head == null) {
+	public void append(T data) {
+		if (head == null)
 			head = new Node(data);
-			printList();
-			return head;
-		} else if (head.next == null) {
-			head.next = new Node(data);
-			tail = head.next;
+		else if (tail == null) {
+			tail = new Node(data);
+			head.next = tail;
 			tail.previous = head;
-			printList();
-			return tail;
 		} else {
-			Node oldTail = tail;
-			tail.next = new Node(data);
-			tail = tail.next;
-			tail.previous = oldTail;
-
-			printList();
-			return tail;
+			Node temp = tail;
+			temp.next = new Node(data);
+			tail = temp.next;
+			tail.previous = temp;
 		}
+		
+		System.out.println("Appended: " + data);
+		printAll();
 	}
 
-	public Node remove(int data) {
-		Node previous = null;
+	public void remove(T data) {
 		Node current = head;
+		Node previous = null;
 
-		while (current.data != data) {
-			if (current.next == null) {
-				System.out.println(data + " not found");
-				return null;
+		while (current != null) {
+			if (current.data.equals(data)) {
+				if (head.next.equals(null)) {
+					head = null;
+				} 
+				else if (current.equals(head)) {
+					head = head.next;
+					head.previous = null;
+				}
+				else if (current.equals(tail)) {
+					previous = tail;
+					tail.next = null;
+				} 
+				else {
+					previous.next = current.next;
+					previous.next.previous = previous;
+				}
+
+				System.out.println("Removed: " + current.data);
+				printAll();
+				return;
 			}
 
 			previous = current;
 			current = current.next;
 		}
 
-		System.out.println("Removing: " + data);
-
-		if (current.equals(head) && head.next == null)
-			head = null;
-		else if (current.equals(head)) {
-			head = head.next;
-			head.previous = null;
-		} else {
-			previous.next = current.next;
-
-			if (current.next != null)
-				current.next.previous = previous;
-		}
-
-		printList();
-
-		return current;
+		System.out.println(previous.data + " not in the list");
+		printAll();
 	}
 
-	public Node search(int data) {
+	public void removeDuplicates() {
+		HashMap<Integer, T> map = new HashMap<Integer, T>();
+		Random random = new Random();
 		Node current = head;
+		Node previous = null;
 
-		while (current.data != data) {
+		while (current != null) {
+			if (map.containsValue(current.data)) {
+				if (current.equals(tail)) {
+					previous = tail;
+					tail.next = null;
+				} 
+				else {
+					previous.next = current.next;
+					previous.next.previous = previous;
+				}
+				
+				System.out.println("Removed: " + current.data);
+				current = current.next;
+				printAll();
+			} 
+			else {
+				map.put(random.nextInt(Integer.MAX_VALUE), current.data);
+				previous = current;
+				current = current.next;
+			}
+		}
+	}
+
+	public void removeMiddle() {
+		Node fast = head.next.next;
+		Node slow = head;
+		
+		int fastCount = 2;
+		int slowCount = 0;
+		
+		while(fast.next.next != null) {
+			System.out.println("FAST: " +fast.data + " | COUNT: " + fastCount);
+			System.out.println("SLOW: " + slow.data + "| COUNT: " + slowCount);
+			fast = fast.next.next;
+			slow = slow.next;
+			fastCount += 2;
+			slowCount += 1;
+		}
+		
+		if(fast.next != null) {
+			System.out.println("FAST: " +fast.data + " | COUNT: " + fastCount);
+			System.out.println("SLOW: " + slow.data + "| COUNT: " + slowCount);
+			fast = fast.next;
+			slow = slow.next;
+			fastCount += 1;
+			slowCount += 1;
+		}
+		
+		System.out.println("FAST: " +fast.data + " | COUNT: " + fastCount);
+		System.out.println("SLOW: " + slow.data + "| COUNT: " + slowCount);
+		
+		remove(slow.data);
+	}
+	
+	public T getKthToLast(int k) {
+		Node current = tail;
+		int counter = 0;
+		
+		while(counter < k) {
+			current = current.previous;
+			counter++;
+		}
+		
+		return current.data;		
+	}
+	
+	public void printAll() {
+		Node current = head;
+		int i = 0;
+		
+		System.out.println();
+		while (current != null) {
+			System.out.print(current.data + " <--> ");
 			current = current.next;
-
-			if (current.next == null) {
-				System.out.println("Data not found");
-				return null;
-			}
+			i++;
+			
+			if(i >= 10 && i % 10 == 0)
+				System.out.println();
 		}
 
-		return current;
-	}
-
-	public boolean isEmpty() {
-		if (head == null)
-			return true;
-		else
-			return false;
-	}
-
-	public void printList() {
-		Node current = head;
-
-		System.out.println();
-
-		if (head == null)
-			System.out.println("List is empty");
-		else {
-			while (current.next != null) {
-				System.out.print(current.data + ", ");
-				current = current.next;
-			}
-
-			System.out.println(current.data + ", ");
-		}
-
-		System.out.println();
-	}
-
-	public void printConnections() {
-		Node current = head;
-
-		System.out.println();
-
-		if (head == null)
-			System.out.println("List is empty");
-		else {
-			while (current != null) {
-				if (current.previous == null)
-					System.out.print("{n} <-- ");
-				else
-					System.out.print("{" + current.previous.data + "} <-- ");
-
-				System.out.print("{" + current.data + "}");
-
-				if (current.next == null)
-					System.out.println(" --> {n}");
-				else
-					System.out.println(" --> {" + current.next.data + "}");
-
-				current = current.next;
-			}
-		}
-
-		System.out.println();
+		System.out.println("\n");
 	}
 }
