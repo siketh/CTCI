@@ -2,7 +2,8 @@ import java.util.Hashtable;
 import java.util.Random;
 
 public class Test {
-
+	public static Random random = new Random();
+	
 	public static void linkedListTest() {
 		LinkedList<Integer> list = new LinkedList<Integer>();
 		Random random = new Random();
@@ -89,7 +90,27 @@ public class Test {
 		r4.printMatrix();
 	}
 	
+	public static void sortTest() {
+		int[] numbers = new int[25];
+		
+		for (int i = 0; i < numbers.length; i++) {
+			numbers[i] = (Integer)random.nextInt(10);
+		}
+		
+		for (int i = 0; i < numbers.length; i++) {
+			System.out.print(numbers[i] + ", ");
+		}
+		
+		System.out.println();
+		
+		Sort.mergeSort(numbers);
+		
+		for (int i = 0; i < numbers.length; i++) {
+			System.out.print(numbers[i] + ", ");
+		}
+	}
+	
 	public static void main(String[] args) {
-		linkedListTest();
+		sortTest();
 	}
 }
