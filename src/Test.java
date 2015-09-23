@@ -6,7 +6,6 @@ public class Test {
 	
 	public static void linkedListTest() {
 		LinkedList<Integer> list = new LinkedList<Integer>();
-		Random random = new Random();
 
 		for (int i = 0; i < 11; i++) {
 			list.append((Integer)random.nextInt(10));
@@ -91,10 +90,10 @@ public class Test {
 	}
 	
 	public static void sortTest() {
-		int[] numbers = new int[25];
+		int[] numbers = new int[50];
 		
 		for (int i = 0; i < numbers.length; i++) {
-			numbers[i] = (Integer)random.nextInt(10);
+			numbers[i] = (Integer)random.nextInt(numbers.length);
 		}
 		
 		for (int i = 0; i < numbers.length; i++) {
