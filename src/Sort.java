@@ -56,5 +56,46 @@ public class Sort {
 		while (!rightBuffer.isEmpty())
 			numbers[i++] = rightBuffer.remove();
 	}
+	
+	public static void quickSort(int[] numbers) {
+		quickSort(numbers, 0, numbers.length - 1);
+	}
+	
+	private static void quickSort(int[] numbers, int left, int right) {
+		int pivot;
+		
+		if(left < right) {
+			pivot = partition(numbers, left, right);
+			quickSort(numbers, left, pivot - 1);
+			quickSort(numbers, pivot + 1, right);
+		}
+	}
+	
+	private static int partition(int[] numbers, int left, int right) {
+		int i;
+		int pivot;
+		int divider;
+		
+		pivot = right;
+		divider = left;
+		
+		for(i = left; i < right; i++) {
+			if(numbers[i] < numbers[pivot]) {
+				swap(numbers, i, divider);
+				divider++;
+			}
+		}	
+		
+		swap(numbers, pivot, divider);
+		
+		return divider;
+	}
+	
+	private static void swap(int[] numbers, int index1, int index2) {
+		int temp = numbers[index1];
+		
+		numbers[index1] = numbers[index2];
+		numbers[index2] = temp;
+	}
 
 }

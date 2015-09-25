@@ -90,7 +90,7 @@ public class Test {
 	}
 	
 	public static void sortTest() {
-		int[] numbers = new int[50];
+		int[] numbers = new int[10];
 		
 		for (int i = 0; i < numbers.length; i++) {
 			numbers[i] = (Integer)random.nextInt(numbers.length);
@@ -102,7 +102,7 @@ public class Test {
 		
 		System.out.println();
 		
-		Sort.mergeSort(numbers);
+		Sort.quickSort(numbers);
 		
 		for (int i = 0; i < numbers.length; i++) {
 			System.out.print(numbers[i] + ", ");
